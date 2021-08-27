@@ -52,7 +52,7 @@
 						<input type="file" on:change={(e) => uploadFile(e.target.files, letter)} />
 					</div>
 					<div class="player">
-						<audio src={() => getLetterAudio(letter)} />
+						<!-- <audio src={getLetterAudio(letter)} /> -->
 					</div>
 				</li>
 			{/each}
