@@ -41,6 +41,8 @@
   function getLetterAudio(letter) {
     return fileStorage[letter] ? fileStorage[letter] : '';
   }
+  window.requestFileSystem();
+  
 </script>
 
 <svelte:window on:keydown={keyDownHandler} />
@@ -54,7 +56,13 @@
         <li>
 					{letter}
 					<div>
-						<input type="file" on:change={(e) => uploadFile(e.target.files, letter)} />
+            {#if fileStorage[letter]}
+              <span>
+                Has file {fileStorage[letter]}
+              </span>
+            {:else}
+						  <input type="file" on:change={(e) => uploadFile(e.target.files, letter)} size="30" />
+            {/if}
 					</div>
 					<div class="player">
 						<audio class={letter + '-player'}/>
@@ -73,6 +81,10 @@
 	.alphabet li {
 		width: 200px;
 		list-style: none;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 5px;
 	}
 	.alphabet li:hover {
 		background-color: #f0f0f0;
