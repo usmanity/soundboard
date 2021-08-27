@@ -2,6 +2,7 @@
 	// array of A - Z
 	var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 	var filePath = null;
+  var fileStorage = {};
 
 	function something(letter) {
 		console.log('ok clicked', letter);
@@ -9,9 +10,11 @@
 
 	function createAudioElement(letter, e) {}
 
-	function uploadFile(file) {
+	function uploadFile(file, letter) {
+    // var firstAvailableLetter = getFirstLetter();
 		var fileObj = file[0];
 		filePath = URL.createObjectURL(fileObj);
+    fileStorage[letter] = filePath;
 	}
 
 	function keyDownHandler(event) {
@@ -22,8 +25,17 @@
 		}
 	}
 
-  function getLetterAudio(letter) {
+  // gets first letter not in fileStorage
+  function getFirstLetter() {
+    for (var i = 0; i < alphabet.length; i++) {
+      if (!fileStorage[alphabet[i]]) {
+        return alphabet[i];
+      }
+    }
+  }
 
+  function getLetterAudio(letter) {
+    return fileStorage[letter] ? fileStorage[letter] : '';
   }
 </script>
 
@@ -40,7 +52,7 @@
 						<input type="file" on:change={(e) => uploadFile(e.target.files, letter)} />
 					</div>
 					<div class="player">
-						<audio src={() => getLetterAudio(letter)} controls="false" />
+						<audio src={() => getLetterAudio(letter)} />
 					</div>
 				</li>
 			{/each}
